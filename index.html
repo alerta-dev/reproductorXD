@@ -58,10 +58,54 @@
             margin-bottom: 20px;
         }
 
+        .video-container:fullscreen {
+            border-radius: 0;
+        }
+
+        .video-container:-webkit-full-screen {
+            border-radius: 0;
+        }
+
+        .video-container:-moz-full-screen {
+            border-radius: 0;
+        }
+
+        .video-container:-ms-fullscreen {
+            border-radius: 0;
+        }
+
         video {
             width: 100%;
             display: block;
             max-height: 600px;
+        }
+
+        .video-container:fullscreen video {
+            max-height: 100vh;
+            height: 100vh;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .video-container:-webkit-full-screen video {
+            max-height: 100vh;
+            height: 100vh;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .video-container:-moz-full-screen video {
+            max-height: 100vh;
+            height: 100vh;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .video-container:-ms-fullscreen video {
+            max-height: 100vh;
+            height: 100vh;
+            width: 100%;
+            object-fit: contain;
         }
 
         .custom-controls {
