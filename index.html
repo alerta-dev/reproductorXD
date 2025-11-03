@@ -460,6 +460,7 @@
                                 <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="100">
                             </div>
                             <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+                            <button class="control-btn" onclick="toggleFullscreen()" id="fullscreenBtn" title="Pantalla completa">⛶</button>
                         </div>
                     </div>
                 </div>
@@ -501,42 +502,7 @@
                 title: "Episodio 3 - El Desenlace",
                 url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
                 type: "url"
-            },
-            {
-                title: "Episodio 4 - El Desenlace",
-                url: "https://res.cloudinary.com/dmqymhbs3/video/upload/v1762146986/y2mate.com_-_Arcane_League_of_Legends_OP_OpeningUHD_60FPS_720p_thltqq.mp4",
-                type: "url"
-            },
-              {
-                title: "Episodio 5 - El Desenlace",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                type: "url"
-            },
-              {
-                title: "Episodio 6 - El Desenlace",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                type: "url"
-            },
-              {
-                title: "Episodio 7 - El Desenlace",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                type: "url"
-            },
-              {
-                title: "Episodio 8 - El Desenlace",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                type: "url"
-            },
-              {
-                title: "Episodio 9 - El Desenlace",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                type: "url"
-            },
-              {
-                title: "Episodio 10 - El Desenlace",
-                url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                type: "url"
-            },
+            }
             // Agrega más capítulos aquí siguiendo el mismo formato
         ];
         // ========================================
@@ -549,6 +515,8 @@
         const timeDisplay = document.getElementById('timeDisplay');
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeBtn = document.getElementById('volumeBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const videoContainer = document.querySelector('.video-container');
 
         // Cargar datos guardados al iniciar
         window.addEventListener('load', () => {
@@ -611,8 +579,17 @@
                     case 'm':
                         toggleMute();
                         break;
+                    case 'f':
+                        toggleFullscreen();
+                        break;
                 }
             });
+
+            // Detectar cambios en pantalla completa
+            document.addEventListener('fullscreenchange', updateFullscreenButton);
+            document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+            document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+            document.addEventListener('MSFullscreenChange', updateFullscreenButton);
         }
 
         function togglePlayPause() {
@@ -649,6 +626,44 @@
                 volumeBtn.textContent = '🔉';
             } else {
                 volumeBtn.textContent = '🔊';
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && 
+                !document.mozFullScreenElement && !document.msFullscreenElement) {
+                // Entrar en pantalla completa
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.webkitRequestFullscreen) {
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.mozRequestFullScreen) {
+                    videoContainer.mozRequestFullScreen();
+                } else if (videoContainer.msRequestFullscreen) {
+                    videoContainer.msRequestFullscreen();
+                }
+            } else {
+                // Salir de pantalla completa
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenButton() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || 
+                document.mozFullScreenElement || document.msFullscreenElement) {
+                fullscreenBtn.textContent = '⛶';
+                fullscreenBtn.title = 'Salir de pantalla completa';
+            } else {
+                fullscreenBtn.textContent = '⛶';
+                fullscreenBtn.title = 'Pantalla completa';
             }
         }
 
